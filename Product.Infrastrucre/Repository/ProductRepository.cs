@@ -44,7 +44,7 @@ namespace Product.Infrastructure
 
                 //Create New Product
                 var res = _mapper.Map<Products>(dto);
-                res.productPicture = src;
+                res.ProductPicture = src;
                 await _context.Products.AddAsync(res);
                 await _context.SaveChangesAsync();
                 return true;

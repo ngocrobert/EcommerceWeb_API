@@ -22,6 +22,7 @@ namespace Product.Infrastructure
     {
         public int Id { get; set; }
         public string CategoryName { get; set; }
+        public string ProductPicture { get; set; }
     }
 
     public class CreateProductDto : BaseProduct

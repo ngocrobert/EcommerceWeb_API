@@ -13,7 +13,7 @@ namespace Product.Core
         public string Description { get; set; }
         public decimal Price { get; set; }
 
-        public string productPicture { get; set; }
+        public string ProductPicture { get; set; }
         
         public int CategoryId { get; set; }
         public virtual Category Category { get; set; }
