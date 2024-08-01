@@ -95,5 +95,24 @@ namespace Product.Infrastructure
             }
             return false;
         }
+
+        //Delete
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var currentProduct = await _context.Products.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            if(!string.IsNullOrEmpty(currentProduct.ProductPicture)) {
+                //delete old pic 
+                var pic_info = _fileProvider.GetFileInfo(currentProduct.ProductPicture);
+                var root_path = pic_info.PhysicalPath;
+                System.IO.File.Delete($"{root_path}");
+
+                //delete DB
+                _context.Products.Remove(currentProduct);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+        
     }
 }

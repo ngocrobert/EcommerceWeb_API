@@ -70,6 +70,22 @@ namespace Product.API.Controllers
             }
         }
 
-
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var res = await _uow.ProductRepository.DeleteAsync(id);
+                    return res ? Ok(res) : BadRequest(res);
+                }
+                return NotFound($"this id = {id} not found");
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
