@@ -28,7 +28,7 @@ namespace Product.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var res = await _uow.ProductRepository.GetByIdAsync(id,x => x.Category);
+            var res = await _uow.ProductRepository.GetByIdAsync(id, x => x.Category);
             var result = _mapper.Map<ProductDto>(res);
             return Ok(result);
         }
@@ -38,19 +38,38 @@ namespace Product.API.Controllers
         {
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     //var res = _mapper.Map<Products>(createProductDto);
-                   var res = await _uow.ProductRepository.AddAsync(createProductDto);
+                    var res = await _uow.ProductRepository.AddAsync(createProductDto);
                     return res ? Ok(createProductDto) : BadRequest(res);
                 }
                 return BadRequest(createProductDto);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateProduct(int id, [FromForm] UpdateProductDto updateProductDto)
+        {
+            try
+            {
+                if(ModelState.IsValid)
+                {
+                    var res = await _uow.ProductRepository.UpdateAsync(id, updateProductDto);
+                    return res ? Ok(updateProductDto) : BadRequest(res);
+                }
+                return BadRequest(updateProductDto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
 
     }
 }

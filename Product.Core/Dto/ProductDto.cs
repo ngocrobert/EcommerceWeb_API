@@ -30,4 +30,12 @@ namespace Product.Infrastructure
         public int categoryid { get; set; }
         public IFormFile image { get; set; }
     }
+
+    //update product
+    public class UpdateProductDto : BaseProduct
+    {
+        public int categoryid { get; set; }
+        public string? oldImage { get; set; }
+        public IFormFile image { get; set; }
+    }
 }

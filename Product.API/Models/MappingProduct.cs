@@ -13,7 +13,10 @@ namespace Product.API.Models
                 .ForMember(d => d.CategoryName, o => o.MapFrom(s => s.Category.Name))
                 .ForMember(d => d.ProductPicture, o => o.MapFrom<ProductUrlResolver>())
                 .ReverseMap();
+            
             CreateMap<CreateProductDto, Products>().ReverseMap();
+            CreateMap<Products, UpdateProductDto>().ReverseMap();
+
         }
     }
 }
