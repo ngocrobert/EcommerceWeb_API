@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Product.Infrastructure
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : BasicEntity
     {
         private readonly ApplicationDbContext _context;
 
@@ -36,13 +36,13 @@ namespace Product.Infrastructure
 
         public IEnumerable<T> GetAll() => _context.Set<T>().AsNoTracking().ToList();
 
-        public  IEnumerable<T> GetAll(Expression<Func<T, bool>> includes)
+        public  IEnumerable<T> GetAll(Expression<Func<T, object>> includes)
         =>  _context.Set<T>().AsNoTracking().ToList();
 
         public async Task<IReadOnlyList<T>> GetAllAsync()
         => await _context.Set<T>().AsNoTracking().ToListAsync();
 
-        public async Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, bool>>[] includes)
+        public async Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includes)
         {
            var query = _context.Set<T>().AsQueryable();
             foreach(var item in includes)
@@ -57,12 +57,14 @@ namespace Product.Infrastructure
 
         public async Task<T> GetByIdAsync(int id, params Expression<Func<T, object>>[] includes)
         {
-            IQueryable<T> query = _context.Set<T>();
+            //IQueryable<T> query = _context.Set<T>();
+            IQueryable<T> query = _context.Set<T>().Where(x => x.Id == id);
             foreach(var item in includes)
             {
                 query = query.Include(item);
             }
-            return await ((DbSet<T>)query).FindAsync(id);
+            return await query.FirstOrDefaultAsync();
+            //return await ((DbSet<T>)query).FindAsync(id);
         }
 
         public async Task<T> UpdateAsync(int id, T entity)

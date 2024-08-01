@@ -1,4 +1,7 @@
+using Microsoft.Extensions.FileProviders;
 using Product.Infrastructure;
+using System.Reflection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -10,6 +13,11 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.InfraStructureConfigration(builder.Configuration);
 
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+// set root File Img
+builder.Services.AddSingleton<IFileProvider>( new PhysicalFileProvider(Path.Combine(
+    Directory.GetCurrentDirectory(), "wwwroot"
+    )));
 
 var app = builder.Build();
 
@@ -23,7 +31,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+app.UseStaticFiles();
 app.MapControllers();
 
 app.Run();

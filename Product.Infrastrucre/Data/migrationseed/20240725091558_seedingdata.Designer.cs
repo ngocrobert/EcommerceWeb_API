@@ -2,17 +2,19 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Product.Infrastructure.Data;
 
 #nullable disable
 
-namespace Product.Infrastructure.Data.migrationone
+namespace Product.Infrastructure.Data.migrationseed
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240725091558_seedingdata")]
+    partial class seedingdata
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,10 +90,6 @@ namespace Product.Infrastructure.Data.migrationone
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("productPicture")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -105,8 +103,7 @@ namespace Product.Infrastructure.Data.migrationone
                             CategoryId = 1,
                             Description = "description 4",
                             Name = "Product 1",
-                            Price = 100m,
-                            productPicture = "https://"
+                            Price = 100m
                         },
                         new
                         {
@@ -114,8 +111,7 @@ namespace Product.Infrastructure.Data.migrationone
                             CategoryId = 2,
                             Description = "description 5",
                             Name = "Product 2",
-                            Price = 300m,
-                            productPicture = "https://"
+                            Price = 300m
                         },
                         new
                         {
@@ -123,8 +119,7 @@ namespace Product.Infrastructure.Data.migrationone
                             CategoryId = 1,
                             Description = "description 6",
                             Name = "Product 3",
-                            Price = 500m,
-                            productPicture = "https://"
+                            Price = 500m
                         },
                         new
                         {
@@ -132,8 +127,7 @@ namespace Product.Infrastructure.Data.migrationone
                             CategoryId = 3,
                             Description = "description 7",
                             Name = "Product 4",
-                            Price = 700m,
-                            productPicture = "https://"
+                            Price = 700m
                         });
                 });
 

@@ -11,8 +11,8 @@ namespace Product.Core
     {
         Task<IReadOnlyList<T>> GetAllAsync();
         IEnumerable<T> GetAll();
-        Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, bool>>[] includes);
-        IEnumerable<T> GetAll(Expression<Func<T, bool>> includes );
+        Task<IEnumerable<T>> GetAllAsync(params Expression<Func<T, object>>[] includes);
+        IEnumerable<T> GetAll(Expression<Func<T, object>> includes );
 
         Task<T> GetByIdAsync(int id, params Expression<Func<T, object>>[] includes);
         Task<T> GetAsync(int id);
