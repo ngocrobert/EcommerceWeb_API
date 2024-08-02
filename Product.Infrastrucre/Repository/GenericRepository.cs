@@ -78,6 +78,8 @@ namespace Product.Infrastructure
             return entity_value;
         }
 
-       
+        public async Task<int> CountAsync()
+            => await _context.Set<T>().CountAsync();
+        
     }
 }

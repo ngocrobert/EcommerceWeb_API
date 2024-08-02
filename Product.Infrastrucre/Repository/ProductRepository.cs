@@ -46,6 +46,11 @@ namespace Product.Infrastructure
                     _ => query.OrderBy(x => x.Name).ToList(),
                 };
             }
+
+            //Page size
+            query = query.Skip((productParams.Pagesize) * (productParams.PageNumber - 1))
+                .Take(productParams.Pagesize).ToList();
+
             var _result = _mapper.Map<List<ProductDto>>(query);
             return _result;
         }

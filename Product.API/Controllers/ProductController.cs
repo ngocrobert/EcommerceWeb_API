@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Product.API.Errors;
+using Product.API.Helper;
 using Product.Core;
 using Product.Infrastructure;
 
@@ -25,8 +26,11 @@ namespace Product.API.Controllers
             //var res = await _uow.ProductRepository.GetAllAsync(x => x.Category);
             var res = await _uow.ProductRepository.GetAllAsync(productParams);
 
+            var totalitems = await _uow.ProductRepository.CountAsync();
+
             var result = _mapper.Map<List<ProductDto>>(res);
-            return Ok(result);
+            return Ok(new Pagination<ProductDto>(productParams.Pagesize, productParams.PageNumber, totalitems, result));
+            //return Ok(result);
         }
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

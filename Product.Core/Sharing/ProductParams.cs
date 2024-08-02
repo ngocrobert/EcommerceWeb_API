@@ -8,10 +8,19 @@ namespace Product.Core
 {
     public class ProductParams
     {
+        //Page size
+        public int maxpagesize { get; set; } = 5;
+        private int pagesize = 3;
+        public int Pagesize { 
+            get => pagesize;
+            set => pagesize = value > maxpagesize ? maxpagesize : value; }
+        public int PageNumber { get; set; } = 1;
+
         //Filter By Category
         public int? CategoryId { get; set; }
 
         //Sorting
         public string? Sorting { get; set; }
+        
     }
 }

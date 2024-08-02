@@ -20,6 +20,7 @@ namespace Product.Core
         Task<T> UpdateAsync(int id, T entity);
         Task<T> DeleteAsync(int id);
 
+        Task<int> CountAsync();
 
     }
 }
