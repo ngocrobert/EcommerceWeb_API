@@ -29,6 +29,12 @@ namespace Product.Infrastructure
         {
             var query = await _context.Products.Include(x => x.Category).AsNoTracking().ToListAsync();
 
+            //
+            if(!string.IsNullOrEmpty(productParams.Search))
+            {
+                query = query.Where(x => x.Name.ToLower().Contains(productParams.Search)).ToList();
+            }
+
             //Filter by category Id
             if (productParams.CategoryId.HasValue)
             {

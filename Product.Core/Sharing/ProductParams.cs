@@ -21,6 +21,14 @@ namespace Product.Core
 
         //Sorting
         public string? Sorting { get; set; }
+
+        //Search
+        private string? _Search;
+        public string? Search
+        {
+            get => _Search;
+            set => _Search = value.ToLower();
+        }
         
     }
 }
