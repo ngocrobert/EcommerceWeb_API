@@ -20,9 +20,11 @@ namespace Product.API.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] ProductParams productParams)
         {
-            var res = await _uow.ProductRepository.GetAllAsync(x => x.Category);
+            //var res = await _uow.ProductRepository.GetAllAsync(x => x.Category);
+            var res = await _uow.ProductRepository.GetAllAsync(productParams);
+
             var result = _mapper.Map<List<ProductDto>>(res);
             return Ok(result);
         }

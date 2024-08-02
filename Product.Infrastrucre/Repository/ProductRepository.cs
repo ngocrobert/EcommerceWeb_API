@@ -25,6 +25,31 @@ namespace Product.Infrastructure
            // _unitOfWork = unitOfWork;
         }
 
+        public async Task<IEnumerable<ProductDto>> GetAllAsync(ProductParams productParams)
+        {
+            var query = await _context.Products.Include(x => x.Category).AsNoTracking().ToListAsync();
+
+            //Filter by category Id
+            if (productParams.CategoryId.HasValue)
+            {
+                query = query.Where(x => x.CategoryId == productParams.CategoryId.Value).ToList();
+            }
+
+            //Sorting
+           
+            if(!string.IsNullOrEmpty(productParams.Sorting))
+            {
+                query = productParams.Sorting switch
+                {
+                    "PriceAsc" => query.OrderBy(x => x.Price).ToList(),
+                    "PriceDesc" => query.OrderByDescending(x => x.Price).ToList(),
+                    _ => query.OrderBy(x => x.Name).ToList(),
+                };
+            }
+            var _result = _mapper.Map<List<ProductDto>>(query);
+            return _result;
+        }
+
         public async Task<bool> AddAsync(CreateProductDto dto)
         {
             if(dto.image is not null)
@@ -113,6 +138,7 @@ namespace Product.Infrastructure
             }
             return false;
         }
+
         
     }
 }
