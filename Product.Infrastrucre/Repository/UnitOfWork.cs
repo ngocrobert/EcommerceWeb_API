@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.FileProviders;
 using Product.Core;
+using Product.Core.Interface;
 using Product.Infrastructure.Data;
+using Product.Infrastructure.Repository;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,19 +20,25 @@ namespace Product.Infrastructure
         private readonly IFileProvider _fileProvider;
         private readonly IMapper _mapper;
 
+        private readonly IConnectionMultiplexer _redis;
+
+
         public ICategoryRepository CategoryRepository { get; }
 
         public IProductRepository ProductRepository { get; }
 
-        public UnitOfWork(ApplicationDbContext context, IFileProvider fileProvider, IMapper mapper)
+        public IBasketRepository BasketRepository { get; }
+
+        public UnitOfWork(ApplicationDbContext context, IFileProvider fileProvider, IMapper mapper, IConnectionMultiplexer redis)
         {
             _context = context;
             _fileProvider = fileProvider;
             _mapper = mapper;
-
+            _redis = redis;
 
             CategoryRepository = new CategoryRepository(_context);
             ProductRepository = new ProductRepository(_context, _fileProvider, _mapper);
+            BasketRepository = new BasketRepository(_redis);
         }
     }
 }
