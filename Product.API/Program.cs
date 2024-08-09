@@ -1,4 +1,5 @@
 using Microsoft.Extensions.FileProviders;
+using Microsoft.OpenApi.Models;
 using Product.API.Extensions;
 using Product.API.Middleware;
 using Product.Infrastructure;
@@ -16,7 +17,28 @@ builder.Services.AddAPIRequesttration();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
+
+//set authen with Jwt
+builder.Services.AddSwaggerGen(s =>
+{
+    var securitySchema = new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Description = "Jwt Auth Bearer",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        Reference = new OpenApiReference
+        {
+            Id = "Bearer",
+            Type = ReferenceType.SecurityScheme
+        }
+    };
+    s.AddSecurityDefinition("Bearer", securitySchema);
+    var securityRequirement = new OpenApiSecurityRequirement { { securitySchema, new[] { "Bearer" } } };
+    s.AddSecurityRequirement(securityRequirement);
+});
 
 builder.Services.InfraStructureConfigration(builder.Configuration);
 
@@ -51,8 +73,12 @@ app.UseMiddleware<ExceptionMiddleware>();
 app.UseStatusCodePagesWithReExecute("/errors/{0}");
 app.UseCors("CorsPolicy");
 
+app.UseAuthentication();
+
 app.UseAuthorization();
 app.UseStaticFiles();
 app.MapControllers();
+
+InfrastructureRequistration.infrastructureConfigMiddleware(app);
 
 app.Run();
