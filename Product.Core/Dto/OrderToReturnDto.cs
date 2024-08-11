@@ -12,7 +12,7 @@ namespace Product.Core.Dto
         public int OrderId { get; set; }
         public string BuyerEmail { get; set; }
         public DateTime OrderDate { get; set; }
-        public string DeliveryMethod { get; set; }
+        public DeliveryMethod DeliveryMethod { get; set; }
         public decimal ShippingPrice { get; set; }
         public ShipAddress ShipToAddress { get; set; }
         public IReadOnlyList<OrderItemsDto> OrderItems { get; set; }

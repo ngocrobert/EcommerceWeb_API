@@ -11,7 +11,7 @@ namespace Product.API.Models
         {
             CreateMap<ShipAddress, AddressDto>().ReverseMap();
             CreateMap<Order, OrderToReturnDto>()
-                .ForMember(d => d.DeliveryMethod, o => o.MapFrom(s => s.DeliveryMethod.ShortName))
+                .ForMember(d => d.DeliveryMethod, o => o.MapFrom(s => s.DeliveryMethod))
                 .ForMember(d => d.ShippingPrice, o => o.MapFrom(s => s.DeliveryMethod.Price))
                 .ReverseMap();
 
