@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Product.Core;
 using Product.Core.Entities;
-using Product.Core.Interface;
+using Product.Core.Services;
 using Product.Infrastructure.Data;
 using Product.Infrastructure.Data.Config;
 using Product.Infrastructure.Repository;

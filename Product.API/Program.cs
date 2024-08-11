@@ -1,8 +1,12 @@
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using Product.API.Extensions;
 using Product.API.Middleware;
+using Product.API.Models;
+using Product.Core.Services;
 using Product.Infrastructure;
+using Product.Infrastructure.Repository;
 using StackExchange.Redis;
 using System.Reflection;
 
@@ -43,6 +47,13 @@ builder.Services.AddSwaggerGen(s =>
 builder.Services.InfraStructureConfigration(builder.Configuration);
 
 //builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+//builder.Services.AddAutoMapper(cfg =>
+//{
+//    // Assuming MappingOrders is a class where you've defined your mappings.
+//    cfg.AddProfile<MappingOrders>();
+//    // Add additional profiles here if needed.
+//});
+
 //// set root File Img
 //builder.Services.AddSingleton<IFileProvider>( new PhysicalFileProvider(Path.Combine(
 //    Directory.GetCurrentDirectory(), "wwwroot"
@@ -55,6 +66,8 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(i =>
     return ConnectionMultiplexer.Connect(configure);
 });
 
+//Configuration Order Services
+builder.Services.AddScoped<IOrderServices, OrderServices>();
 
 var app = builder.Build();
 

@@ -7,7 +7,7 @@ using Product.API.Errors;
 using Product.API.Extensions;
 using Product.Core.Dto;
 using Product.Core.Entities;
-using Product.Core.Interface;
+using Product.Core.Services;
 
 namespace Product.API.Controllers
 {
@@ -91,7 +91,7 @@ namespace Product.API.Controllers
         }
 
         [Authorize]
-        [HttpGet("get-current-user")]
+        [HttpGet("current-user")]
         public async Task<IActionResult> GetCurrentUser()
         {
             var user = await _userManager.FindEmailByClaimPrincipal(HttpContext.User);
@@ -104,7 +104,7 @@ namespace Product.API.Controllers
         }
 
         [Authorize]
-        [HttpGet("get-user-address")]
+        [HttpGet("user-address")]
         public async Task<IActionResult> GetUserAddress()
         {
             var user = await _userManager.FindUserByClaimPrincipalWithAddress(HttpContext.User);
@@ -113,7 +113,7 @@ namespace Product.API.Controllers
         }
 
         [Authorize]
-        [HttpPut("Update-user-address")]
+        [HttpPut("user-address")]
         public async Task<IActionResult> UpdateUserAddress(AddressDto dto)
         {
             var user = await _userManager.FindUserByClaimPrincipalWithAddress(HttpContext.User);

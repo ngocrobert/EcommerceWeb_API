@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Product.Core;
 using Product.Core.Entities;
+using Product.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,10 @@ namespace Product.Infrastructure.Data
         public virtual DbSet<Products> Products { get; set; }
 
         public DbSet<Address> Address { get; set; }
+
+        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrderItems> OrderItems { get; set; }
+        public virtual DbSet<DeliveryMethod> DeliveryMethods { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -45,6 +50,19 @@ namespace Product.Infrastructure.Data
                 .WithOne(b => b.AppUsers)
                 .HasForeignKey<Address>(b => b.AppUserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<DeliveryMethod>().HasKey(d => d.ID);
+
+            modelBuilder.Entity<OrderItems>()
+        .Property(o => o.Price)
+        .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<OrderItems>()
+                .Property(o => o.Quantity)
+                .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<OrderItems>()
+                .HasKey(o => o.OrderItemsId);
         }
 
     }
